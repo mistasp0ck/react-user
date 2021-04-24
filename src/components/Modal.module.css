@@ -1,0 +1,31 @@
+.modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-inner {
+  /* width: 500px;
+  display: flex;
+  flex: 0 0 40%;
+  height: auto;
+  background: #fff;
+  box-shadow: 1px 1px 5px #000;
+
+  display: flex;
+  align-self: center;
+  justify-self: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex: 0 0 50%;
+  width: 500px;
+  margin: 0 auto; */
+}
+.modal-inner .card {
+  padding-top: 0;
+}

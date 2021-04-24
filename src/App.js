@@ -1,23 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+
+import Card from "./components/Card";
+import User from "./components/User";
+import NewUserForm from "./components/NewUserForm";
+import "./App.css";
+
+const DUMMY_USERS = [
+  {
+    id: "123",
+    name: "Tony Staffiero",
+    age: 38,
+  },
+  {
+    id: "321",
+    name: "Bob Smith",
+    age: 18,
+  },
+];
 
 function App() {
+  // add users state
+  const [users, setUsers] = useState(DUMMY_USERS);
+
+  const addUserHandler = (user) => {
+    setUsers((prevUsers) => {
+      return [user, ...prevUsers];
+    });
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Card>
+        <NewUserForm onSaveUserData={addUserHandler} />
+      </Card>
+      <Card>
+        {users.map((user) => {
+          return <User id={user.id} name={user.name} age={user.age} />;
+        })}
+      </Card>
     </div>
   );
 }
