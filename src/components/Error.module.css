@@ -1,0 +1,13 @@
+.error {
+  padding-top: 0;
+}
+.error-title {
+  color: #fff;
+  background: purple;
+  text-align: left;
+  padding-left: 15px;
+}
+.error-body {
+  text-align: left;
+  margin-left: 15px;
+}

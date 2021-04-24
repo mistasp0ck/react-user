@@ -8,6 +8,7 @@ const NewUserForm = (props) => {
   const [enteredName, setEnteredName] = useState("");
   const [enteredAge, setEnteredAge] = useState("");
   const [isValid, setIsValid] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -16,28 +17,45 @@ const NewUserForm = (props) => {
       age: enteredAge,
       id: Math.random().toString(),
     };
-    if (enteredName.trim().length > 0 || enteredAge.trim().length > 0) {
+
+    if (enteredName.trim().length > 0 && enteredAge.trim().length > 0) {
+      if (+enteredAge > 0) {
+        saveUserData(userData);
+      } else {
+        setIsValid(false);
+        setErrorMessage("Please enter a valid age (> 0).");
+      }
     } else {
       setIsValid(false);
+      setErrorMessage("Please enter a valid name and age (non-empty values).");
     }
-
-    if (isValid === true) {
-      console.log(userData);
-      props.onSaveUserData(userData);
-      setEnteredName("");
-      setEnteredAge("");
-    }
+  };
+  const saveUserData = (userData) => {
+    console.log(userData);
+    props.onSaveUserData(userData);
+    setEnteredName("");
+    setEnteredAge("");
   };
 
   const ageChangeHandler = (event) => {
+    event.preventDefault();
     setEnteredAge(event.target.value);
   };
   const nameChangeHandler = (event) => {
     setEnteredName(event.target.value);
   };
 
+  const closeErrorHandler = () => {
+    console.log("we got a close event");
+    setIsValid(true);
+  };
+
   let error = (
-    <Error title="Invalid Input" body="Test Error"></Error>
+    <Error
+      title="Invalid Input"
+      body={errorMessage}
+      onTriggerClose={closeErrorHandler}
+    ></Error>
   );
   return (
     <div>
@@ -49,9 +67,9 @@ const NewUserForm = (props) => {
         <div>
           <label>Age (Years)</label>
           <input
-            type="number"
-            min="1"
-            step="1"
+            // type="number"
+            // min="1"
+            // step="1"
             value={enteredAge}
             onChange={ageChangeHandler}
           />
