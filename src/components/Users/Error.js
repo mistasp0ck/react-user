@@ -1,16 +1,12 @@
 import React from "react";
 
 import styles from "./Error.module.css";
-import Modal from "./Modal";
-import Card from "./Card";
-import Button from "./Button";
+import Modal from "../UI/Modal";
+import Card from "../UI/Card";
+import Button from "../UI/Button";
 
 const Error = (props) => {
-  const buttonClickHandler = e => {
-    e.preventDefault();
-    console.log('button click!');
-    props.onTriggerClose();
-  }
+
   return (
     <Modal>
       <Card className={styles.error}>
@@ -21,7 +17,7 @@ const Error = (props) => {
           <p>{props.body}</p>
         </div>
         <div>
-          <Button type="button" onClick={buttonClickHandler}>Okay</Button>
+          <Button type="button" onClick={props.onTriggerClose}>Okay</Button>
         </div>
       </Card>
     </Modal>

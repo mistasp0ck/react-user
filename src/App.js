@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import Card from "./components/Card";
-import User from "./components/User";
-import NewUserForm from "./components/NewUserForm";
+import Card from "./components/UI/Card";
+import User from "./components/Users/User";
+import NewUserForm from "./components/Users/NewUserForm";
 import "./App.css";
 
 const DUMMY_USERS = [
@@ -35,7 +35,7 @@ function App() {
       </Card>
       <Card>
         {users.map((user) => {
-          return <User id={user.id} name={user.name} age={user.age} />;
+          return <User key={user.id} name={user.name} age={user.age} />;
         })}
       </Card>
     </div>

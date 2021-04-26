@@ -1,34 +1,38 @@
 import React, { useState } from "react";
 
 import styles from "./NewUserForm.module.css";
-import Button from "./Button";
+import Button from "../UI/Button";
 import Error from "./Error";
 
 const NewUserForm = (props) => {
   const [enteredName, setEnteredName] = useState("");
   const [enteredAge, setEnteredAge] = useState("");
-  const [isValid, setIsValid] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [error, setError] = useState("");
 
   const submitHandler = (event) => {
     event.preventDefault();
+    console.log(enteredName);
+    if (enteredName.trim().length === 0 || enteredAge.trim().length === 0) {
+      setError({
+        title: "Invalid Input",
+        message: "Please enter a valid value for user and age.",
+      });
+      return;
+    }
+    if (+enteredAge < 1) {
+      setError({
+        title: "Invalid Input",
+        message: "Please enter a valid age (> 0).",
+      });
+
+      return;
+    }
     const userData = {
       name: enteredName,
       age: enteredAge,
       id: Math.random().toString(),
     };
-
-    if (enteredName.trim().length > 0 && enteredAge.trim().length > 0) {
-      if (+enteredAge > 0) {
-        saveUserData(userData);
-      } else {
-        setIsValid(false);
-        setErrorMessage("Please enter a valid age (> 0).");
-      }
-    } else {
-      setIsValid(false);
-      setErrorMessage("Please enter a valid name and age (non-empty values).");
-    }
+    saveUserData(userData);
   };
   const saveUserData = (userData) => {
     console.log(userData);
@@ -45,31 +49,29 @@ const NewUserForm = (props) => {
     setEnteredName(event.target.value);
   };
 
-  const closeErrorHandler = () => {
-    console.log("we got a close event");
-    setIsValid(true);
+  const errorHandler = () => {
+    setError(null);
   };
 
-  let error = (
-    <Error
-      title="Invalid Input"
-      body={errorMessage}
-      onTriggerClose={closeErrorHandler}
-    ></Error>
-  );
   return (
     <div>
       <form className={styles["form-control"]} onSubmit={submitHandler}>
         <div>
-          <label>Username</label>
-          <input type="text" value={enteredName} onChange={nameChangeHandler} />
+          <label htmlFor="username">Username</label>
+          <input
+            id="username"
+            type="text"
+            value={enteredName}
+            onChange={nameChangeHandler}
+          />
         </div>
         <div>
-          <label>Age (Years)</label>
+          <label htmlFor="age">Age (Years)</label>
           <input
-            // type="number"
-            // min="1"
-            // step="1"
+            id="age"
+            type="number"
+            min="1"
+            step="1"
             value={enteredAge}
             onChange={ageChangeHandler}
           />
@@ -78,7 +80,13 @@ const NewUserForm = (props) => {
           <Button type="submit">Add User</Button>
         </div>
       </form>
-      {!isValid && error}
+      {error && (
+        <Error
+          title={error.title}
+          body={error.message}
+          onTriggerClose={errorHandler}
+        ></Error>
+      )}
     </div>
   );
 };
